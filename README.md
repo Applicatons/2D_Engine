@@ -1,2 +1,2 @@
-# 2D_Engine
+# 2DEngine
 2D game engine written in C++ using SDL.
