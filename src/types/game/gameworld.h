@@ -48,7 +48,7 @@ private:
         SDL_SetRenderTarget(pRenderer, NULL);  
 
         object_texture* texture = new object_texture();
-        area.apply_scale(1.2f);
+        area.apply_scale(2.f);
         texture->tRect = area;
         texture->setup(result);
         

@@ -8,11 +8,15 @@ int main( int argc, char* args[] )
         return init;
 
 
-    square da_square = square();
-    if (!pEngine->create_object("da_square", &da_square))
-        printf("Square Creation Failed\n");
+    player main_player = player();
+    if (!pEngine->create_object("Mainplayer", &main_player))
+        printf("Mainplayer Creation Failed\n");
+
+
+    pEngine->camera_render(true);
 
     while (pEngine->isRunning) {
+        pEngine->mesure_ticks();
         pEngine->events();
 
         pEngine->pDrawing->set_draw_color(0, 100, 100, 100);
@@ -21,8 +25,10 @@ int main( int argc, char* args[] )
 
         pEngine->camera_render();
 
+        pEngine->pDrawing->render_fostring(vec2(1, 3), std::string("TPS: ") + std::to_string(pEngine->tps + 1), COLOR::WHITE);
         pEngine->pDrawing->render_preset();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        SDL_Delay(1);
     }
     
     pEngine->quit();

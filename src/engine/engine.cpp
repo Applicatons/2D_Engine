@@ -71,8 +71,24 @@ void engine::events(){
                 this->isRunning = false;
                 break;
             case SDL_KEYDOWN:
+                if (event.key.keysym.scancode == 79) // r
+                    this->pGameworld->objects.begin()->second->object_state = Objects::RIGHT | Objects::MOVING;
+                else if (event.key.keysym.scancode == 80) // l
+                    this->pGameworld->objects.begin()->second->object_state = Objects::LEFT | Objects::MOVING;
+                else if (event.key.keysym.scancode == 81) // d
+                    this->pGameworld->objects.begin()->second->object_state = Objects::FRONT | Objects::MOVING;
+                else if (event.key.keysym.scancode == 82) // u
+                    this->pGameworld->objects.begin()->second->object_state = Objects::BACK | Objects::MOVING;
                 break;
             case SDL_KEYUP:
+                if (this->pGameworld->objects.begin()->second->object_state & Objects::BACK)
+                    this->pGameworld->objects.begin()->second->object_state = Objects::BACK | Objects::STANDING;
+                else if (this->pGameworld->objects.begin()->second->object_state & Objects::FRONT)
+                    this->pGameworld->objects.begin()->second->object_state = Objects::FRONT | Objects::STANDING;
+                else if (this->pGameworld->objects.begin()->second->object_state & Objects::RIGHT)
+                    this->pGameworld->objects.begin()->second->object_state = Objects::RIGHT | Objects::STANDING;
+                else if (this->pGameworld->objects.begin()->second->object_state & Objects::LEFT)
+                    this->pGameworld->objects.begin()->second->object_state = Objects::LEFT | Objects::STANDING;
                 break;
             default:
                 break;
@@ -80,6 +96,31 @@ void engine::events(){
     }
 }
 
-void engine::camera_render(){
-    this->pCamera->render(this->pGameworld->objects);
+void engine::camera_render(bool force){
+    if (force)
+        this->pCamera->force_update(this->pGameworld->objects, this->pGameworld->textures);
+    else
+        this->pCamera->render(this->should_tick, this->pGameworld->objects, this->pGameworld->textures);
+}
+
+void engine::mesure_ticks(){
+    Uint64 current_tick = SDL_GetTicks64();
+
+    if (should_tick) {
+        start_tick = current_tick;
+        should_tick = false;
+        return;
+    }
+
+    if ((1000 / 20) < (current_tick - start_tick)) {
+        should_tick = true;
+        this->current_tps++;
+        start_tick = current_tick;
+    }       
+
+    if (current_tick - this->real_mesuring_tick >= 1000) {
+        this->tps = this->current_tps;
+        this->current_tps = 0;
+        this->real_mesuring_tick = current_tick;
+    }
 }

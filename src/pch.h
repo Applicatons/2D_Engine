@@ -28,8 +28,10 @@
 
 #include "engine/drawing/drawing.hpp"
 
+#include "types/game/animation/animation.hpp"
 #include "types/game/objects/gameobject.h"
 #include "types/game/objects/shapes/square.h"
+#include "types/game/objects/player/player.h"
 #include "types/game/camera/camera.h"
 #include "types/game/tiles/itile/itile.h"
 #include "types/game/tiles/tiles.h"

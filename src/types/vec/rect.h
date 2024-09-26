@@ -18,6 +18,14 @@ public:
         this->h *= scale;
     }
 
+    void mirror(int axis){
+        if (axis){
+            this->w = -w;
+        }else{
+            this->h = -h;
+        }
+    }
+
     bool is_inside( vec2 position )
     {
         if ( this->x > position.x || this->y > position.y ) return false;

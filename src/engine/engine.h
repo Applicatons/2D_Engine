@@ -20,15 +20,20 @@ public:
 
     void set_title(std::string title);
     void events();
-    void camera_render();
+    void camera_render(bool force = false);
+    void mesure_ticks();
 
     SDL_Window* pWindow;
     SDL_Renderer* pRenderer;
     drawing* pDrawing;
 
-    float fps = 0.f;
+    int tps;
+    bool should_tick = true;
 private:
-    const float FPS_LIMIT = 144.f;
+    //const float FPS_LIMIT = 144.f;
+    Uint64 start_tick, real_mesuring_tick;
+    int current_tps;
+
     rect win_size;
 
     camera* pCamera;
