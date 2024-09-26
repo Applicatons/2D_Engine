@@ -5,10 +5,10 @@ public:
     gameobject() {}
 
     void implode(){
-        this->texture.implode();
+        this->texture->implode();
         delete this;
     }
 
-    object_texture texture;
+    object_texture* texture;
     bound bounds;
 };
