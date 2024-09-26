@@ -3,5 +3,12 @@
 class gameobject{
 public:
     gameobject() {}
-    bound Bounds;
+
+    void implode(){
+        this->texture.implode();
+        delete this;
+    }
+
+    object_texture texture;
+    bound bounds;
 };

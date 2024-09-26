@@ -30,6 +30,7 @@ bool engine::init(){
 
     this->pDrawing = new drawing(this->pRenderer, this->pWindow);
     this->create_camera();
+    this->create_gameworld();
 
     return EXIT_SUCCESS;
 }
@@ -42,11 +43,19 @@ camera* engine::get_pCamera(){
    return this->pCamera;
 }
 
+gameworld* engine::create_gameworld(){
+    return this->pGameworld = new gameworld(this->pRenderer);
+}
+
+gameworld* engine::get_pGameworld(){
+   return this->pGameworld;
+}
+
 gameobject* engine::create_object(std::string tag, gameobject* object){
-    if (this->objects.find(tag) != this->objects.end())
+    if (this->pGameworld->objects.find(tag) != this->pGameworld->objects.end())
         return nullptr;
-    this->objects.emplace(tag, object);
-    return this->objects[tag];
+    this->pGameworld->objects.emplace(tag, object);
+    return this->pGameworld->objects[tag];
 }
 
 void engine::set_title(std::string title){
@@ -72,5 +81,5 @@ void engine::events(){
 }
 
 void engine::camera_render(){
-    this->pCamera->render(this->objects);
+    this->pCamera->render(this->pGameworld->objects);
 }

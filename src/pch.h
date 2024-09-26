@@ -5,9 +5,12 @@
 #include <unordered_map>
 #include <chrono>
 #include <thread>
+#include <filesystem>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_image.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,17 +21,17 @@
 #include "types/vec/bound.h"
 
 #include "types/color/color4.h"
-
 #include "types/utility.hpp"
-
 #include "types/font/font.h"
 #include "types/texture/font_texture.h"
+#include "types/texture/object_texture.h"
 
 #include "engine/drawing/drawing.hpp"
 
 #include "types/game/objects/gameobject.h"
-
 #include "types/game/objects/shapes/square.h"
-
 #include "types/game/camera/camera.h"
+#include "types/game/tiles/itile/itile.h"
+#include "types/game/tiles/tiles.h"
+#include "types/game/gameworld.h"
 

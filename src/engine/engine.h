@@ -13,6 +13,9 @@ public:
     camera* create_camera();
     camera* get_pCamera();
 
+    gameworld* create_gameworld();
+    gameworld* get_pGameworld();
+
     gameobject* create_object(std::string tag, gameobject* object);
 
     void set_title(std::string title);
@@ -29,5 +32,5 @@ private:
     rect win_size;
 
     camera* pCamera;
-    std::unordered_map<std::string, gameobject*> objects {};
+    gameworld* pGameworld;
 };

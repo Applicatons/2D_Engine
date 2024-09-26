@@ -20,6 +20,22 @@ namespace utility{
 }
 
 namespace COLOR{
-    color4 WHITE = color4(255, 255, 255);
-    color4 BLACK = color4(0, 0, 0);
+    inline color4 WHITE = color4(255, 255, 255);
+    inline color4 BLACK = color4(0, 0, 0);
 }
+
+namespace tex{
+    enum textures_index : int32_t {
+        PLAYER_BACK = 0,
+        PLAYER_FRONT,
+        PLAYER_RIGHT,
+        PLAYER_LEFT,
+    };
+
+    enum texture_animations : int32_t {
+        PLAYER_IDLE = 0,
+    };
+
+    inline std::unordered_map<int, std::vector<int>> ANIMATIONS {};
+}
+

@@ -41,6 +41,11 @@ public:
         return render_string(pos, data, color, psize);
     }
 
+    void render_texture(vec2 point, object_texture* texture){
+        SDL_Rect rect = *texture->set_pos(point);
+        SDL_RenderCopy(this->pRenderer, texture->tData, NULL, &rect);
+    }
+
     void render_line(vec2 start, vec2 end){
         SDL_RenderDrawLine(pRenderer, start.x, start.y, end.x, end.y);
     }

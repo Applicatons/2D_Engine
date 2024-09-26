@@ -7,6 +7,7 @@ int main( int argc, char* args[] )
     if (int init = pEngine->init())
         return init;
 
+
     square da_square = square();
     if (!pEngine->create_object("da_square", &da_square))
         printf("Square Creation Failed\n");
@@ -26,5 +27,6 @@ int main( int argc, char* args[] )
     
     pEngine->quit();
     pEngine->pDrawing->implode();
+    pEngine->get_pGameworld()->implode();
     return EXIT_SUCCESS;
 }

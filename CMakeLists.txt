@@ -22,3 +22,4 @@ include_directories(${SDL2TTF_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} SDL2_ttf)
+target_link_libraries(${PROJECT_NAME} SDL2_image)

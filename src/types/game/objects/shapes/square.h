@@ -4,7 +4,7 @@
 class square : public gameobject{
 public:
     square(){
-        this->Bounds.VERTEX =
+        this->bounds.VERTEX =
             { 
                 vec2(-1, -1), // bottom left
                 vec2(-1, 1), // top left
@@ -12,7 +12,7 @@ public:
                 vec2(1, -1), // bottom right
             };
 
-        this->Bounds.EDGES =
+        this->bounds.EDGES =
             { 
                 {0, 1}, 
                 {1, 2}, 

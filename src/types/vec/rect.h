@@ -13,6 +13,11 @@ public:
         return {(int)x, (int)y, (int)w, (int)h};
     }
 
+    void apply_scale(float scale){
+        this->w *= scale;
+        this->h *= scale;
+    }
+
     bool is_inside( vec2 position )
     {
         if ( this->x > position.x || this->y > position.y ) return false;
