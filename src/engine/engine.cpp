@@ -11,6 +11,8 @@ bool engine::quit(){
 }
 
 bool engine::init(){
+    srand (time(NULL));
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("Error: SDL failed to initialize\nSDL Error: '%s'\n", SDL_GetError());
         return EXIT_FAILURE;
@@ -54,8 +56,18 @@ gameworld* engine::get_pGameworld(){
 gameobject* engine::create_object(std::string tag, gameobject* object){
     if (this->pGameworld->objects.find(tag) != this->pGameworld->objects.end())
         return nullptr;
+    
+    object->tag = tag;
+    
     this->pGameworld->objects.emplace(tag, object);
+    this->regester_keycall(object);
+
+    object->on_start(this->pGameworld->textures);
     return this->pGameworld->objects[tag];
+}
+
+void engine::generate_world(vec2 starting_pos){
+    this->pGameworld->generate_world(starting_pos);
 }
 
 void engine::set_title(std::string title){
@@ -70,37 +82,20 @@ void engine::events(){
             case SDL_QUIT:
                 this->isRunning = false;
                 break;
-            case SDL_KEYDOWN:
-                if (event.key.keysym.scancode == 79) // r
-                    this->pGameworld->objects.begin()->second->object_state = Objects::RIGHT | Objects::MOVING;
-                else if (event.key.keysym.scancode == 80) // l
-                    this->pGameworld->objects.begin()->second->object_state = Objects::LEFT | Objects::MOVING;
-                else if (event.key.keysym.scancode == 81) // d
-                    this->pGameworld->objects.begin()->second->object_state = Objects::FRONT | Objects::MOVING;
-                else if (event.key.keysym.scancode == 82) // u
-                    this->pGameworld->objects.begin()->second->object_state = Objects::BACK | Objects::MOVING;
-                break;
+            case SDL_MOUSEWHEEL:
+            case SDL_MOUSEBUTTONUP:
+            case SDL_MOUSEBUTTONDOWN:
             case SDL_KEYUP:
-                if (this->pGameworld->objects.begin()->second->object_state & Objects::BACK)
-                    this->pGameworld->objects.begin()->second->object_state = Objects::BACK | Objects::STANDING;
-                else if (this->pGameworld->objects.begin()->second->object_state & Objects::FRONT)
-                    this->pGameworld->objects.begin()->second->object_state = Objects::FRONT | Objects::STANDING;
-                else if (this->pGameworld->objects.begin()->second->object_state & Objects::RIGHT)
-                    this->pGameworld->objects.begin()->second->object_state = Objects::RIGHT | Objects::STANDING;
-                else if (this->pGameworld->objects.begin()->second->object_state & Objects::LEFT)
-                    this->pGameworld->objects.begin()->second->object_state = Objects::LEFT | Objects::STANDING;
-                break;
+            case SDL_KEYDOWN:
+                this->key_queue.push(std::pair(event.type, event.key));
             default:
                 break;
         }
     }
 }
 
-void engine::camera_render(bool force){
-    if (force)
-        this->pCamera->force_update(this->pGameworld->objects, this->pGameworld->textures);
-    else
-        this->pCamera->render(this->should_tick, this->pGameworld->objects, this->pGameworld->textures);
+void engine::camera_render(){
+    this->pCamera->render(this->should_tick, this->pGameworld);
 }
 
 void engine::mesure_ticks(){
@@ -122,5 +117,25 @@ void engine::mesure_ticks(){
         this->tps = this->current_tps;
         this->current_tps = 0;
         this->real_mesuring_tick = current_tick;
+    }
+}
+
+void engine::regester_keycall(gameobject* object){
+    
+    if (this->key_callback.find(object->tag) != this->key_callback.end()){
+        this->key_callback[object->tag] = object;
+        return;
+    }
+    
+    this->key_callback.emplace(object->tag, object);
+    printf("%s Key Callback Registerd\n", object->tag.c_str());
+}
+
+void engine::keycall(){
+    while (!this->key_queue.empty()) {
+        for (auto& key_pair : this->key_callback)
+            key_pair.second->key_input(this->key_queue.front().first, this->key_queue.front().second);
+        
+        this->key_queue.pop();
     }
 }

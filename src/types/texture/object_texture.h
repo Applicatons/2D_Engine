@@ -17,6 +17,12 @@ public:
         return &tRect;
     }
 
+    rect* set_area(vec2 pos){
+        this->tRect.w = pos.x;
+        this->tRect.h = pos.y;
+        return &tRect;
+    }
+
     void implode(){
         SDL_DestroyTexture(this->tData);
         delete this;

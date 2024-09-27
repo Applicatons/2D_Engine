@@ -10,6 +10,7 @@ public:
 
     bool quit();
     bool init();
+    
     camera* create_camera();
     camera* get_pCamera();
 
@@ -18,10 +19,13 @@ public:
 
     gameobject* create_object(std::string tag, gameobject* object);
 
+    void generate_world(vec2 starting_pos);
     void set_title(std::string title);
     void events();
-    void camera_render(bool force = false);
+    void camera_render();
     void mesure_ticks();
+    void regester_keycall(gameobject* object);
+    void keycall();
 
     SDL_Window* pWindow;
     SDL_Renderer* pRenderer;
@@ -30,6 +34,7 @@ public:
     int tps;
     bool should_tick = true;
 private:
+
     //const float FPS_LIMIT = 144.f;
     Uint64 start_tick, real_mesuring_tick;
     int current_tps;
@@ -38,4 +43,7 @@ private:
 
     camera* pCamera;
     gameworld* pGameworld;
+
+    std::unordered_map<std::string, gameobject*> key_callback {};
+    std::queue<std::pair<int, SDL_KeyboardEvent>> key_queue {};
 };

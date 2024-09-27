@@ -3,7 +3,7 @@
 
 class animation {
 public:
-    animation(int rtps = 8) : rtps(rtps) {}
+    animation(int rtps = 4) : rtps(rtps) {}
 
     void run(object_texture &texture, int object_state, std::unordered_map<int, object_texture*> &textures){
         std::vector<int> animation = Objects::ANIMATIONS[object_state];
@@ -21,6 +21,7 @@ public:
         if (animation.size()-1 < itr)
             itr = 0;
         
+
     }
 
     int itr = 0;

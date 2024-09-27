@@ -6,6 +6,8 @@
 #include <chrono>
 #include <thread>
 #include <filesystem>
+#include <queue>
+#include <stdlib.h>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -32,8 +34,10 @@
 #include "types/game/objects/gameobject.h"
 #include "types/game/objects/shapes/square.h"
 #include "types/game/objects/player/player.h"
-#include "types/game/camera/camera.h"
 #include "types/game/tiles/itile/itile.h"
 #include "types/game/tiles/tiles.h"
 #include "types/game/gameworld.h"
+
+
+#include "types/game/camera/camera.h"
 

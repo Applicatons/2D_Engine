@@ -13,6 +13,11 @@ public:
         this->y = pos.y;
     }
 
+    void set_rel_pos(vec2 pos){
+        this->x += pos.x;
+        this->y += pos.y;
+    }
+
     std::vector<vec2> VERTEX {};
     std::vector<std::pair<int, int>> EDGES {};
 };

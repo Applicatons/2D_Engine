@@ -32,4 +32,18 @@ public:
 		if ( this->x + this->w < position.x || this->y + this->h < position.y ) return false;
 		return true;
     }
+
+    operator vec2 () const {
+        return {this->x, this->y};
+    }
+
+    void operator-=(const vec2& r) {
+        x -= r.x;
+        y -= r.y;
+    }
+
+    void operator+=(const vec2& r) {
+        x += r.x;
+        y += r.y;
+    }
 };

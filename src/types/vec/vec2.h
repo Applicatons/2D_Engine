@@ -9,6 +9,10 @@ public:
     vec2() : x(0), y(0) { }
     vec2(float x, float y) : x(x), y(y) { }
 
+    bool is_valid(){
+        return !(this->x == 0 && this->y == 0);
+    }
+
     vec2 operator+(const vec2 &r) const {
         return vec2(this->x + r.x, this->y + r.y);
     }
@@ -27,6 +31,10 @@ public:
 
     vec2 operator*(const vec2 &r) const {
         return vec2(this->x * r.x, this->y * r.y);
+    }
+
+    vec2 operator*(const float &r) const {
+        return vec2(this->x * r, this->y * r);
     }
 
     float dot(const vec2 &r) const {

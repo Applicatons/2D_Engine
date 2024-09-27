@@ -19,6 +19,47 @@ public:
         }
     }
 
+    int generate_seed(){
+        return this->world_seed = rand() % 1000000 + 1;
+    }
+
+    int get_seed(){
+        return this->world_seed;
+    }
+
+    void generate_world(vec2 starting_pos){
+
+        generate_seed();
+
+        int dx = 0, dy = -1;
+        int x = starting_pos.x;
+        int y = starting_pos.y;
+        int segment_length = 1;
+        int steps_in_current_direction = 0;
+        int turns_taken = 0;
+
+        for (int i = 0; i < 100; ++i) {
+            tile* t = new tile(vec2(x, y), textures);
+            this->world_tiles.push_back(t);
+
+            if (steps_in_current_direction == segment_length) {
+                steps_in_current_direction = 0;
+                ++turns_taken;
+
+                std::swap(dx, dy);
+                dy = -dy;
+
+                if (turns_taken % 2 == 0) {
+                    ++segment_length;
+                }
+            }
+
+            x += t->get_width() * dx;
+            y += t->get_height() * dy;
+            ++steps_in_current_direction;
+        }
+    }
+
     object_texture* get_texture(int idx)
     {
         return this->textures[idx];
@@ -29,12 +70,25 @@ public:
             pair.second->implode();
             delete pair.second;
         }
+
+        for (auto& pair : this->objects){
+            pair.second->implode();
+            delete pair.second;
+        }
+
+        for (auto& tile : this->world_tiles){
+            tile->implode();
+            delete tile;
+        }
     }
 
+    std::vector<tile*> world_tiles {};
     std::unordered_map<std::string, gameobject*> objects {};
     std::unordered_map<int, object_texture*> textures {};
 
 private:
+
+    int world_seed;
 
     object_texture* crop_texture( SDL_Renderer* pRenderer, rect area, SDL_Texture* source)
     {

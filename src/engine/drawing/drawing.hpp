@@ -41,7 +41,9 @@ public:
         return render_string(pos, data, color, psize);
     }
 
-    void render_texture(vec2 point, object_texture* texture){
+    void render_texture(vec2 point, object_texture* texture, vec2 size = vec2()){
+        if (size.is_valid())
+            (void)*texture->set_area(size);
         SDL_Rect rect = *texture->set_pos(point);
         SDL_RenderCopy(this->pRenderer, texture->tData, NULL, &rect);
     }

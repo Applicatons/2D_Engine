@@ -2,6 +2,8 @@
 #include <pch.h>
 
 namespace utility{
+    inline std::unordered_map<int, int> random_cache {};
+
     inline std::vector<std::string> split(const std::string& s, char seperator)
     {
         std::vector<std::string> output;
@@ -17,6 +19,20 @@ namespace utility{
         output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
         return output;
     }
+
+    inline int get_random(int seed, int max){
+        if (utility::random_cache.find(seed) != utility::random_cache.end())
+            return utility::random_cache[seed];
+        
+        srand(seed);
+        int pick = rand() % max;
+        srand(time(NULL));
+
+        utility::random_cache.emplace(seed, pick);
+        printf("pick:%d\n", pick);
+        return pick;
+    }
+
 }
 
 namespace COLOR{
@@ -42,9 +58,16 @@ namespace Objects{
         PLAYER_FRONT_R2,
         PLAYER_RIGHT_R1,
         PLAYER_LEFT_R1,
+        GROUND_1,
+        ROCK_LRG,
+        ROCK_MID,
+        ROCK_SM,
+        STICK_MID,
+        STICK_LOG,
+        STICK_SM
     };
 
-    enum texture_animations : int32_t {
+    enum object_actions : int32_t {
         PLAYER_IDLE_BACK = FLAG(3) | FLAG(0),
         PLAYER_IDLE_FRONT = FLAG(2) | FLAG(0),
         PLAYER_IDLE_RIGHT = FLAG(4) | FLAG(0),
@@ -66,6 +89,7 @@ namespace Objects{
         RIGHT = FLAG(4),
         LEFT = FLAG(5),
     };
+
 
     inline std::unordered_map<int, std::vector<int>> ANIMATIONS { {PLAYER_IDLE_BACK,  {PLAYER_BACK,  PLAYER_BACK_BOB }},   
                                                                   {PLAYER_IDLE_FRONT, {PLAYER_FRONT, PLAYER_FRONT_BOB}},   
