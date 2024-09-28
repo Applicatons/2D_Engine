@@ -29,10 +29,21 @@ namespace utility{
         srand(time(NULL));
 
         utility::random_cache.emplace(seed, pick);
-        printf("pick:%d\n", pick);
         return pick;
     }
 
+    inline int get_random(int max){
+        return rand() % max;
+    }
+    
+    inline float clamp(float val, float max, float min){
+        if (val > max)
+            return max;
+        if (val < min)
+            return min;
+
+        return val;
+    }
 }
 
 namespace COLOR{

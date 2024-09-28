@@ -16,8 +16,8 @@ public:
     int tile_has_object(int seed){
         auto pos = this->get_relative_pos();
 
-        if(utility::get_random(seed + (int)(pos.x * pos.y) / 2, 2))
-            return utility::get_random(seed + pos.x * pos.y, 6);
+        if(utility::get_random(23) > 12)
+            return utility::get_random(6);
         
         return -1;
     }

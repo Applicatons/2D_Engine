@@ -59,6 +59,15 @@ public:
         return *this;
     }
 
+    void rotate(float angle) {
+        float rad = angle * (M_PI / 180.0f); // Convert degrees to radians
+        float cos_theta = std::cos(rad);
+        float sin_theta = std::sin(rad);
+
+        this->x = x * cos_theta - y * sin_theta;
+        this->y = x * sin_theta + y * cos_theta;
+    }
+
     std::string to_string(){
         const int SIZE = 10;
         char bufferx[SIZE];

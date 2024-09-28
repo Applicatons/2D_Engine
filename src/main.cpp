@@ -27,6 +27,7 @@ int main( int argc, char* args[] )
         }
 
         pEngine->camera_render();
+        pEngine->get_pCamera()->bounds.set_pos(pEngine->get_pCamera()->bounds.lerp(main_player.bounds + vec2(-130, -60), 0.1f));
 
         pEngine->pDrawing->render_fostring(vec2(1, 3), std::string("TPS: ") + std::to_string(pEngine->tps + 1), COLOR::WHITE);
         pEngine->pDrawing->render_preset();

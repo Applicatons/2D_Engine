@@ -20,10 +20,12 @@
 #include "types/vec/vec3.h"
 #include "types/vec/vec4.h"
 #include "types/vec/rect.h"
-#include "types/vec/bound.h"
 
 #include "types/color/color4.h"
+
 #include "types/utility.hpp"
+
+#include "types/vec/bound.h"
 #include "types/font/font.h"
 #include "types/texture/font_texture.h"
 #include "types/texture/object_texture.h"

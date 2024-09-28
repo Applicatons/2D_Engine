@@ -41,11 +41,11 @@ public:
         return render_string(pos, data, color, psize);
     }
 
-    void render_texture(vec2 point, object_texture* texture, vec2 size = vec2()){
+    void render_texture(vec2 point, object_texture* texture, vec2 size = vec2(), float angle = 0){
         if (size.is_valid())
             (void)*texture->set_area(size);
         SDL_Rect rect = *texture->set_pos(point);
-        SDL_RenderCopy(this->pRenderer, texture->tData, NULL, &rect);
+        SDL_RenderCopyEx(this->pRenderer, texture->tData, NULL, &rect, angle, NULL, SDL_FLIP_NONE);
     }
 
     void render_line(vec2 start, vec2 end){
