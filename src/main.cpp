@@ -12,23 +12,20 @@ int main( int argc, char* args[] )
         printf("Mainplayer Creation Failed\n");
 
     pEngine->generate_world(main_player.bounds);
-    pEngine->get_pCamera()->bounds += {-150, -150};
 
     while (pEngine->isRunning) {
-        pEngine->mesure_ticks();
         pEngine->events();
-
-        pEngine->pDrawing->set_draw_color(0, 100, 100, 100);
+        pEngine->mesure_ticks();
         pEngine->pDrawing->render_clear();
         pEngine->pDrawing->set_draw_color(COLOR::BLACK);
-
+        
         if (pEngine->should_tick){
+            pEngine->get_pCamera()->lerp_camera(main_player.bounds);
             pEngine->keycall();
         }
 
         pEngine->camera_render();
-        pEngine->get_pCamera()->bounds.set_pos(pEngine->get_pCamera()->bounds.lerp(main_player.bounds + vec2(-130, -60), 0.1f));
-
+        
         pEngine->pDrawing->render_fostring(vec2(1, 3), std::string("TPS: ") + std::to_string(pEngine->tps + 1), COLOR::WHITE);
         pEngine->pDrawing->render_preset();
     }

@@ -37,9 +37,6 @@ void camera::render(bool is_tick, gameworld* pGameworld) {
         for (itile* it : itiles){
             vec2 ipos = ipos_rel + it->get_relative_pos();
             this->pDrawing->render_texture(this->w2s(ipos), it->get_rendereable(), vec2(itile::SIZE, itile::SIZE) * this->scale);
-            int pick = it->tile_has_object(pGameworld->get_seed()) + 1;
-            if (pick)
-                picks.push_back(std::pair(ipos, pick));
             
             
             /*this->pDrawing->render_line(this->w2s(vec2(ipos.x, ipos.y)), this->w2s(vec2(ipos.x + itile::SIZE, ipos.y)));
@@ -55,12 +52,6 @@ void camera::render(bool is_tick, gameworld* pGameworld) {
         //this->pDrawing->render_line(this->w2s(vec2(pos.x, pos.y - t->get_height())), this->w2s(vec2(pos.x, pos.y)));
     }
 
-    
-    for (auto& pick : picks){
-        vec2 pos =this->w2s(pick.first + vec2(utility::get_random(pick.first.x * pick.first.y, 10), utility::get_random(pick.first.x * pick.first.y, 10)));
-        int angle = utility::get_random(pick.first.x / 3, 180);
-        this->pDrawing->render_texture(pos, pGameworld->get_texture(15 + pick.second), vec2(itile::SIZE, itile::SIZE) * this->scale, angle);
-     }
 
     for (auto& game_pair : pGameworld->objects){
         std::string object_tag = game_pair.first;
@@ -71,4 +62,8 @@ void camera::render(bool is_tick, gameworld* pGameworld) {
         
         this->pDrawing->render_texture(this->w2s(object->bounds), object->get_renderable());
     }
+}
+
+void camera::lerp_camera(vec2 pos){
+    this->bounds.set_pos(this->bounds.lerp(pos + vec2(-(this->pWinSize->w / this->scale) / 2, -(this->pWinSize->h / this->scale) / 2), 0.1f));
 }

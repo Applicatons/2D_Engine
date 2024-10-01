@@ -36,6 +36,10 @@ public:
         return vec2(this->x + r.x, this->y + r.y);
     }
 
+    operator vec2(){
+        return {this->x, this->y};
+    }
+
     std::vector<vec2> VERTEX {};
     std::vector<std::pair<int, int>> EDGES {};
 };
